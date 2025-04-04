@@ -36,8 +36,8 @@ def run_model(stimulus_val, p_base, tspan, t_eval, dNetwork, param_to_vary, para
     p[param_to_vary] = param_value
     current_y0 = [p[key] for key in list(p_base.keys()) if key[0].isupper()]
     for seg in segments:
-        # Create a fresh copy of the parameter dictionary and update m and test parameter if supplied
-        p[stimkey] = seg[stimkey]
+        for key in list(seg.keys()):
+            p[key] = seg[key]
         # Generate time points for this segment
         tspan = seg["tspan"]
         t_eval = np.linspace(tspan[0], tspan[1], 200)
