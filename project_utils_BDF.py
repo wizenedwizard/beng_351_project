@@ -34,10 +34,13 @@ def run_model(stimulus_val, p_base, tspan, t_eval, dNetwork, param_to_vary, para
     states_all = []
     p = copy.deepcopy(p_base)
     p[param_to_vary] = param_value
-    current_y0 = [p[key] for key in list(p_base.keys()) if key[0].isupper()]
+    current_y0 = [p[key] for key in list(p_base.keys())[1:] if key[0].isupper()]
+    if stimkey[0].isupper():
+      current_y0.insert(0, np.nan)
     for seg in segments:
         for key in list(seg.keys()):
             p[key] = seg[key]
+        current_y0[0] = seg[stimkey]
         # Generate time points for this segment
         tspan = seg["tspan"]
         t_eval = np.linspace(tspan[0], tspan[1], 200)
